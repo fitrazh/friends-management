@@ -9,8 +9,6 @@ RUN apt-get update 2>/dev/null | grep packages | cut -d '.' -f 1 && apt-get inst
 RUN apt-get install -y libpq-dev \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install pdo pdo_pgsql pgsql
-RUN docker-php-ext-install pdo_pgsql pgsql
-RUN docker-php-ext-install -j$(nproc) iconv pdo_mysql gd
 RUN docker-php-ext-configure gd --with-jpeg=/usr/include/ --with-freetype=/usr/include/
 
 WORKDIR /var/www

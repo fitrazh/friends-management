@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   nginx:
-    container_name: con_laravel_sq
+    container_name: con_friends_mgt
     # lokasi source code
     build:
       context: ./
@@ -15,7 +15,7 @@ services:
       - "8070:80"
 
   app:
-    container_name: app_laravel_sq
+    container_name: app_friends_mgt
     build:
       context: ./
       dockerfile: app.dockerfile
@@ -33,7 +33,7 @@ services:
       - DB_PASSWORD=secret
 
   postgres:
-    container_name: pgsql_laravel_sq
+    container_name: pgsql_friends_mgt
     image: postgres:12-alpine
     ports:
       - "5432:5432"
