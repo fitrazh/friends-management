@@ -4,49 +4,726 @@
         "title": "Example for response examples value",
         "description": "Example info",
         "contact": {
-            "name": "Swagger API Team"
+            "name": "fitrazh@gmail.com"
         },
         "version": "1.0"
     },
     "servers": [
         {
-            "url": "https://example.localhost",
-            "description": "API server"
+            "url": "http://localhost:8070",
+            "description": "Local API server"
         }
     ],
     "paths": {
-        "/users/{id}": {
-            "put": {
+        "/friend/request": {
+            "post": {
                 "tags": [
-                    "user"
+                    "Friend"
                 ],
-                "summary": "Updates a user",
-                "description": "Updates a user",
-                "operationId": "updateUser",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Parameter with mutliple examples",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "examples": {
-                            "int": {
-                                "summary": "An int value.",
-                                "value": "1"
-                            },
-                            "uuid": {
-                                "summary": "An UUID value.",
-                                "value": "0006faf6-7a61-426c-9034-579f2cfcfa83"
+                "summary": "Friend request",
+                "description": "Send friend request",
+                "operationId": "v1FriendRequest",
+                "requestBody": {
+                    "request": "Friend request",
+                    "description": "Required and optional input to update an order product.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "requestor": {
+                                        "type": "email",
+                                        "format": "email",
+                                        "example": "email1@example.com"
+                                    },
+                                    "to": {
+                                        "type": "email",
+                                        "format": "email",
+                                        "example": "email2@example.com"
+                                    }
+                                },
+                                "type": "object"
                             }
                         }
                     }
-                ],
+                },
                 "responses": {
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "requestor": {
+                                            "type": "string",
+                                            "example": "The selected requestor is invalid."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict"
+                    },
+                    "429": {
+                        "description": "Too many request"
+                    },
                     "200": {
-                        "description": "OK"
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/friend/accept": {
+            "put": {
+                "tags": [
+                    "Friend"
+                ],
+                "summary": "Accept friend request",
+                "description": "Accept friend request",
+                "operationId": "v1UpdateFriendRequestAccept",
+                "requestBody": {
+                    "request": "Friend request",
+                    "description": "Required and optional input to update an order product.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "requestor": {
+                                        "type": "email",
+                                        "format": "email",
+                                        "example": "email1@example.com"
+                                    },
+                                    "to": {
+                                        "type": "email",
+                                        "format": "email",
+                                        "example": "email2@example.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "requestor": {
+                                            "type": "string",
+                                            "example": "The selected requestor is invalid."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict"
+                    },
+                    "429": {
+                        "description": "Too many request"
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/friend/block": {
+            "put": {
+                "tags": [
+                    "Friend"
+                ],
+                "summary": "Block friend request",
+                "description": "Block a user",
+                "operationId": "v1UpdateBlockFriend",
+                "requestBody": {
+                    "request": "Friend request",
+                    "description": "Required and optional input to update an order product.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "requestor": {
+                                        "type": "email",
+                                        "format": "email",
+                                        "example": "email1@example.com"
+                                    },
+                                    "block": {
+                                        "type": "email",
+                                        "format": "email",
+                                        "example": "email2@example.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "requestor": {
+                                            "type": "string",
+                                            "example": "The selected requestor is invalid."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict"
+                    },
+                    "429": {
+                        "description": "Too many request"
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/friend/reject": {
+            "put": {
+                "tags": [
+                    "Friend"
+                ],
+                "summary": "Reject friend request",
+                "description": "Reject friend request",
+                "operationId": "v1UpdateFriendRequestReject",
+                "requestBody": {
+                    "request": "Friend request",
+                    "description": "Required and optional input to update an order product.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "requestor": {
+                                        "type": "email",
+                                        "format": "email",
+                                        "example": "email1@example.com"
+                                    },
+                                    "to": {
+                                        "type": "email",
+                                        "format": "email",
+                                        "example": "email2@example.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "requestor": {
+                                            "type": "string",
+                                            "example": "The selected requestor is invalid."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict"
+                    },
+                    "429": {
+                        "description": "Too many request"
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/friend/list/request": {
+            "post": {
+                "tags": [
+                    "Friend"
+                ],
+                "summary": "Get all friend request list",
+                "description": "Get all friend request list",
+                "operationId": "v1UpdateFriendRequestList",
+                "requestBody": {
+                    "request": "Friend request",
+                    "description": "Required and optional input to update an order product.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "email",
+                                        "format": "email",
+                                        "example": "email1@example.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "requestor": {
+                                            "type": "string",
+                                            "example": "The selected requestor is invalid."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict"
+                    },
+                    "429": {
+                        "description": "Too many request"
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "requestor": {
+                                                        "type": "string",
+                                                        "example": "email1@mail.com"
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "reject"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/friend/list": {
+            "post": {
+                "tags": [
+                    "Friend"
+                ],
+                "summary": "API to see list of friends",
+                "description": "API to see list of friends",
+                "operationId": "v1GetFriendList",
+                "requestBody": {
+                    "request": "Friend request",
+                    "description": "Required and optional input to update an order product.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "email",
+                                        "format": "email",
+                                        "example": "email1@example.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "requestor": {
+                                            "type": "string",
+                                            "example": "The selected requestor is invalid."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict"
+                    },
+                    "429": {
+                        "description": "Too many request"
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "requestor": {
+                                                        "type": "string",
+                                                        "example": "email1@mail.com"
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "reject"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/friend/mutual": {
+            "post": {
+                "tags": [
+                    "Friend"
+                ],
+                "summary": "API to see list of mutual friends",
+                "description": "API to see list of mutual friends",
+                "operationId": "v1GetFriendMutualList",
+                "requestBody": {
+                    "request": "Friend request",
+                    "description": "Required and optional input to update an order product.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "friends": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "email1": {
+                                                    "type": "string",
+                                                    "example": "email1@mail.com"
+                                                },
+                                                "email2": {
+                                                    "type": "string",
+                                                    "example": "email2@mail.com"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "email1": {
+                                            "type": "string",
+                                            "example": "array[0]: is email1 is invalid format."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict"
+                    },
+                    "429": {
+                        "description": "Too many request"
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "email4": {
+                                                        "type": "string",
+                                                        "example": "email4@mail.com"
+                                                    },
+                                                    "email7": {
+                                                        "type": "string",
+                                                        "example": "email7@mail.com"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "count": {
+                                            "type": "integer",
+                                            "example": "2"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -56,7 +733,7 @@
                 "tags": [
                     "user"
                 ],
-                "summary": "Adds a new user - with oneOf examples",
+                "summary": "Adds a new user",
                 "description": "Adds a new user",
                 "operationId": "addUser",
                 "requestBody": {
@@ -144,7 +821,7 @@
     "tags": [
         {
             "name": "user",
-            "description": "User related operations"
+            "description": "Friend management api"
         }
     ]
 }

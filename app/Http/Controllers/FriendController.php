@@ -96,14 +96,15 @@ class FriendController extends Controller
         $this->validationFriendRequest($request);
 
         $mutual_friend = [];
+        $count;
         try {
             $intersect = DB::select(
                 "select user_id from friends where status = 'accept' and  friend_id= '". User::getIdByEmail($data['friends'][0])."' 
                 INTERSECT
                  select user_id from friends where status = 'accept' and  friend_id='". User::getIdByEmail($data['friends'][1])."'"
               );
-
-            if(count($intersect)>0){
+            $count = count($intersect);
+            if($count > 0){
                 foreach($intersect as $friend){
                     array_push($mutual_friend,  User::getEmailById($friend->user_id));
                 }
@@ -112,7 +113,7 @@ class FriendController extends Controller
             return $e->getMessage();
         }
 
-        return response()->json(["success" => true,"friends" =>  $mutual_friend]);
+        return response()->json(["success" => true,"friends" =>  $mutual_friend, "count" => $count]);
     }
 
     public function v1FriendRequest(Request $request)
@@ -158,6 +159,24 @@ class FriendController extends Controller
             Friend::where('user_id', User::getIdByEmail($data['requestor']))
             ->where('friend_id', User::getIdByEmail($data['to']))
             ->update(['status' => Friend::ACTION_FRIEND_REJECT]);
+        } catch (\Throwable $th) {
+            return response()->json(['success' => false,'messsage' => $th->getMessage()], 500);
+        }
+        
+        return response()->json(['success' => true], 200);
+    }
+
+    public function v1UpdateFriendRequestBlock(Request $request)
+    {
+        $data = $request->all();
+        $this->validationFriendRequest($request);
+
+        try {
+            $User = Friend::create([
+                'user_id' => User::getIdByEmail($data['requestor']),
+                'friend_id' => User::getIdByEmail($data['to']),
+                'status' => Friend::ACTION_FRIEND_REQUEST
+            ]);
         } catch (\Throwable $th) {
             return response()->json(['success' => false,'messsage' => $th->getMessage()], 500);
         }
