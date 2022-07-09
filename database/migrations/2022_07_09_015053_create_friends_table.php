@@ -17,8 +17,9 @@ class CreateFriendsTable extends Migration
             $table->uuid('id')->primary();
             $table->uuid('user_id');
             $table->uuid('friend_id');
-            $table->timestampTz('channel_created_at');
+            $table->string('status');
             $table->timestampTz('created_at');
+            $table->timestampTz('updated_at');
             $table->softDeletesTz();
         });
     }

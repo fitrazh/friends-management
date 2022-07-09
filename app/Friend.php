@@ -14,6 +14,8 @@ class Friend extends Model
 
     public const ACTION_FRIEND_ACCEPT = 'accept';
 
+    public const ACTION_FRIEND_REJECT = 'reject';
+
     public const ACTION_FRIEND_BLOCK = 'block';
 
     protected $table = 'friends';
@@ -24,4 +26,5 @@ class Friend extends Model
         'created_by' => Json::class,
         'updated_by' => Json::class,
     ];
+
 }

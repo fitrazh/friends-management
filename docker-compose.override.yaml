@@ -8,7 +8,8 @@ services:
       - service_hub
     volumes:
       - ${PWD:-./}:/var/www/html
-
+    dns: 8.8.8.8
+    
   postgres:
     ports:
       - "5432:5432"

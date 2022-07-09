@@ -13,13 +13,40 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+       
+        $status = [
+            [
+              'id' => 'orders',
+              'name' => 'status',
+              'email' => 0,
+              'status' => 'pending',
+              'value' => 'pending'
+            ],
+            [
+              'table' => 'orders',
+              'column' => 'status',
+              'sequence' => 0,
+              'status' => 'processing',
+              'value' => 'processing'
+            ],
+            [
+              'table' => 'orders',
+              'column' => 'status',
+              'sequence' => 0,
+              'status' => 'completed',
+              'value' => 'completed'
+            ]
+          ];
+
+        foreach ($status as $item) {
+            Users::create([
             'id' => Uuid::generate(4),
-            'name' => 'test',
-            'email' => 'test@example.com',
-            'password' => app('hash')->make('test'),
+            'name' => "test",
+            'email' => "test@gmail.com",
             'created_at' => Carbon::now('UTC'),
-            'updated_at' => Carbon::now('UTC'),
-        ]);
+            'updated_at' => Carbon::now('UTC')
+            ]);
+        }
+
     }
 }

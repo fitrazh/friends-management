@@ -18,4 +18,15 @@ class User extends Model
         'created_by' => Json::class,
         'updated_by' => Json::class,
     ];
+
+    public static function getIdByEmail($email)
+    {
+        return  self::select('id')->where('email', '=', $email)->first()['id'];
+    }
+
+    public static function getEmailById($user_id)
+    {
+        return  self::select('email')->where('id', '=', $user_id)->first()['email'];
+    }
+
 }

@@ -17,9 +17,8 @@ class CreateUsersTable extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('email')->unique();
-            $table->text('password');
-            $table->timestampTz('channel_created_at');
             $table->timestampTz('created_at');
+            $table->timestampTz('updated_at');
             $table->softDeletesTz();
         });
     }

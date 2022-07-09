@@ -31,6 +31,7 @@ services:
       - DB_PORT=5432
       - DB_USERNAME=homestead
       - DB_PASSWORD=secret
+      - DATABASE_URL=postgres://postgres:5432/sqp-sample-db
 
   postgres:
     container_name: pgsql_friends_mgt
@@ -38,6 +39,7 @@ services:
     ports:
       - "5432:5432"
     environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
       - POSTGRES_USER=homestead
       - POSTGRES_PASSWORD=secret
       - POSTGRES_DB=sqp-sample-db
