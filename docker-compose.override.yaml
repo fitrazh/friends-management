@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  app:
+    ports:
+      - "8080:8080"
+    networks:
+      - default
+      - service_hub
+    volumes:
+      - ${PWD:-./}:/var/www/html
+
+  postgres:
+    ports:
+      - "5432:5432"
+networks:
+  service_hub:
+    external:
+      name: service_hub

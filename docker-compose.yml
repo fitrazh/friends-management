@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+  nginx:
+    container_name: con_laravel_sq
+    # lokasi source code
+    build:
+      context: ./
+      dockerfile: web.dockerfile
+    # path untuk source di dalam docker
+    volumes:
+      - ./:/var/www
+    image: webserver_laravel:1.0
+    ports:
+      - "8070:80"
+
+  app:
+    container_name: app_laravel_sq
+    build:
+      context: ./
+      dockerfile: app.dockerfile
+    image: app_laravel:1.0
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - postgres
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_DATABASE=sqp-sample-db
+      - DB_HOST=127.0.0.1
+      - DB_PORT=5432
+      - DB_USERNAME=homestead
+      - DB_PASSWORD=secret
+
+  postgres:
+    container_name: pgsql_laravel_sq
+    image: postgres:12-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=homestead
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=sqp-sample-db
+
