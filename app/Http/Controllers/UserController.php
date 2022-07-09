@@ -35,8 +35,8 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return $users;
         }
-        
-        return $results;
+
+        return $users;
     }
 
     public function v1InsertUsers(Request $request)
